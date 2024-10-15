@@ -1,0 +1,23 @@
+// Solidity smart contract to log honeypot interactions
+pragma solidity ^0.8.0;
+
+contract HoneypotLogger {
+    struct AttackLog {
+        address attackerAddress;
+        string attackType;
+        string timestamp;
+    }
+
+    AttackLog[] public logs;
+
+    event NewAttackLog(address indexed attackerAddress, string attackType, string timestamp);
+
+    function logAttack(string memory attackType, string memory timestamp) public {
+        logs.push(AttackLog(msg.sender, attackType, timestamp));
+        emit NewAttackLog(msg.sender, attackType, timestamp);
+    }
+
+    function getLogs() public view returns (AttackLog[] memory) {
+        return logs;
+    }
+}
